@@ -82,6 +82,7 @@
         />
         <PropertyMap
           selectedId={selectedId}
+          onSelect={setSelectedId}
           properties={filteredBukkens}
         />
       </div>
@@ -91,10 +92,11 @@
   //物件マップ用のコンポーネント
   type PropertyMapProps = {
     selectedId: number | null;
+    onSelect: (id: number) => void;
     properties: Property[]
   }
 
-  function PropertyMap({selectedId, properties}: PropertyMapProps){
+  function PropertyMap({selectedId, onSelect, properties}: PropertyMapProps){
     return(
       <div>
       {selectedId === null ?
@@ -104,15 +106,35 @@
       }
       <ul>
         {properties.map((property) => (
-          <li key={property.id}>
-            {selectedId === property.id
-              ? <p>{property.name} 選択中</p>
-              : <p>{property.name}</p>
-            }
-          </li>
+          <PropertyMarker
+            key={property.id}
+            name={property.name}
+            isSelected={property.id === selectedId}
+            onClick={() => {
+              onSelect(property.id)
+            }}
+          />
         ))}
       </ul>
       </div>
+    );
+  }
+
+  //1件の物件をマップ上に表示するUI
+  type PropertyMarkerProps = {
+    name: string;
+    isSelected: boolean;
+    onClick: () => void;
+  }
+
+  function PropertyMarker({name, isSelected, onClick}: PropertyMarkerProps) {
+    return(
+      <li onClick={onClick}>
+        {isSelected
+          ? <p>{name} 選択中</p>
+          : <p>{name}</p>
+        }
+      </li>
     );
   }
 
