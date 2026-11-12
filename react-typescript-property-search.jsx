@@ -52,6 +52,11 @@
         )
       );
     });
+    const selectedProperty = bukkens.find((bukken) => {
+      return(
+        bukken.id === selectedId
+      );
+    });
 
     return(
       <div>
@@ -84,6 +89,7 @@
           selectedId={selectedId}
           onSelect={setSelectedId}
           properties={filteredBukkens}
+          selectedProperty={selectedProperty}
         />
       </div>
     );
@@ -93,16 +99,20 @@
   type PropertyMapProps = {
     selectedId: number | null;
     onSelect: (id: number) => void;
-    properties: Property[]
+    properties: Property[];
+    selectedProperty: Property | undefined;
   }
 
-  function PropertyMap({selectedId, onSelect, properties}: PropertyMapProps){
+  function PropertyMap({selectedId, onSelect, properties, selectedProperty}: PropertyMapProps){
     return(
       <div>
-      {selectedId === null ?
-        <p>物件未選択</p>
-        :
-        <p>選択中ID：{selectedId}</p>
+      {selectedProperty
+        ? <div>
+            <p>{selectedProperty.name}</p>
+            <p>{selectedProperty.lat}</p>
+            <p>{selectedProperty.lng}</p>
+          </div>
+        : <p>物件未選択</p>
       }
       <ul>
         {properties.map((property) => (
@@ -198,3 +208,6 @@
       </div>
     );
   }
+
+
+
