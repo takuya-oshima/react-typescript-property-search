@@ -123,6 +123,8 @@
             onClick={() => {
               onSelect(property.id)
             }}
+            lat={property.lat}
+            lng={property.lng}
           />
         ))}
       </ul>
@@ -135,9 +137,11 @@
     name: string;
     isSelected: boolean;
     onClick: () => void;
+    lat: number;
+    lng: number;
   }
 
-  function PropertyMarker({name, isSelected, onClick}: PropertyMarkerProps) {
+  function PropertyMarker({name, isSelected, onClick, lat, lng}: PropertyMarkerProps) {
     return(
       <li onClick={onClick}>
         {isSelected
