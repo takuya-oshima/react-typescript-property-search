@@ -104,30 +104,43 @@
   }
 
   function PropertyMap({selectedId, onSelect, properties, selectedProperty}: PropertyMapProps){
+    const centerLat = selectedProperty
+      ? selectedProperty.lat
+      : properties[0]
+        ? properties[0].lat
+        : 0
+    const centerLng = selectedProperty
+      ? selectedProperty.lng
+      : 0
     return(
       <div>
-      {selectedProperty
-        ? <div>
-            <p>{selectedProperty.name}</p>
-            <p>{selectedProperty.lat}</p>
-            <p>{selectedProperty.lng}</p>
-          </div>
-        : <p>物件未選択</p>
-      }
-      <ul>
-        {properties.map((property) => (
-          <PropertyMarker
-            key={property.id}
-            name={property.name}
-            isSelected={property.id === selectedId}
-            onClick={() => {
-              onSelect(property.id)
-            }}
-            lat={property.lat}
-            lng={property.lng}
-          />
-        ))}
-      </ul>
+        <div>
+          <div>地図中心</div>
+          <div>緯度：{centerLat}</div>
+          <div>経度：{centerLng}</div>
+        </div>
+        {selectedProperty
+          ? <div>
+              <p>{selectedProperty.name}</p>
+              <p>{selectedProperty.lat}</p>
+              <p>{selectedProperty.lng}</p>
+            </div>
+          : <p>物件未選択</p>
+        }
+        <ul>
+          {properties.map((property) => (
+            <PropertyMarker
+              key={property.id}
+              name={property.name}
+              isSelected={property.id === selectedId}
+              onClick={() => {
+                onSelect(property.id)
+              }}
+              lat={property.lat}
+              lng={property.lng}
+            />
+          ))}
+        </ul>
       </div>
     );
   }
@@ -145,8 +158,17 @@
     return(
       <li onClick={onClick}>
         {isSelected
-          ? <p>{name} 選択中</p>
-          : <p>{name}</p>
+          ? <div>
+              <p>{name} 選択中</p>
+              <p>緯度{lat}</p>
+              <p>経度：{lng}</p>
+            </div>
+          :
+            <div>
+              <p>{name}</p>
+              <p>緯度{lat}</p>
+              <p>経度：{lng}</p>
+            </div>
         }
       </li>
     );
