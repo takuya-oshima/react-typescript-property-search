@@ -111,7 +111,9 @@
         : 0
     const centerLng = selectedProperty
       ? selectedProperty.lng
-      : 0
+      : properties[0]
+        ? properties[0].lng
+        : 0
     return(
       <div>
         <div>
